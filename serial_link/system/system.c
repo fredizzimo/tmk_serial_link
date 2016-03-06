@@ -133,6 +133,7 @@ void init_serial_link(void) {
     sdStart(&SD1, &config);
     sdStart(&SD2, &config);
     chEvtObjectInit(&new_data_event);
+    return;
     (void)chThdCreateStatic(serialThreadStack, sizeof(serialThreadStack),
                               LOWPRIO, serialThread, NULL);
 }
