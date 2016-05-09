@@ -30,7 +30,7 @@ SOFTWARE.
 void init_serial_link(void);
 void init_serial_link_hal(void);
 bool is_serial_link_connected(void);
-host_driver_t* get_serial_link_driver(void);
+extern host_driver_t serial_link_driver;
 void serial_link_update(void);
 
 #endif

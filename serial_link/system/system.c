@@ -36,13 +36,22 @@ SOFTWARE.
 static event_source_t new_data_event;
 static bool serial_link_connected;
 
+static bool is_driver_suspended(void);
+static bool is_remote_wakeup_supported(void) { return false; }
+static void send_remote_wakeup(void) {}
 static uint8_t keyboard_leds(void);
 static void send_keyboard(report_keyboard_t *report);
 static void send_mouse(report_mouse_t *report);
 static void send_system(uint16_t data);
 static void send_consumer(uint16_t data);
 
-host_driver_t serial_driver = {
+host_driver_t serial_link_driver = {
+  init_serial_link,
+  is_serial_link_connected,
+  is_driver_suspended,
+  serial_link_update,
+  is_remote_wakeup_supported,
+  send_remote_wakeup,
   keyboard_leds,
   send_keyboard,
   send_mouse,
@@ -183,8 +192,8 @@ bool is_serial_link_connected(void) {
     return serial_link_connected;
 }
 
-host_driver_t* get_serial_link_driver(void) {
-    return &serial_driver;
+bool is_driver_suspended(void) {
+    return false;
 }
 
 // NOTE: The driver does nothing, because the master handles everything
